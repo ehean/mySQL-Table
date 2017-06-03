@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	  <link rel="stylesheet" type="text/css" href="style.css">
+	  <script src="table.js"></script>
+  </head>
+  <body>
+	<div id="permanentForm"></div>
+		<form>
+			<fieldset>
+			  	<legend>Enter Your Exercise Data Below</legend>
+			  	<label for="name">Name</label>
+			  	<input type="text" name="data" id="nameForm">
+				</br>
+				<label for="reps">Reps</label>
+			  	<input type="text" name="data" id="repsForm">
+				</br>
+				<label for="weight">Weight</label>
+				<input type="text" name="data" id="weightForm">
+				</br>
+				<label for="date">Date</label>
+				<input type="text" name="data" id="dateForm">
+				</br>
+				<label for="lbs">lbs</label>
+				<input type="text" name="data" id="lbsForm">
+				</br>
+			</br>
+				<input type="submit" id="submitData">
+			</fieldset>
+		</form>
+
+		</br>
+		</br>
+		<span>Data:</span><span id="dataOutput"></span>
+
+	<div id="table">
+		<table>
+			<tbody>
+				<th id="nameCol">Name</th>
+				<th id="repsCol">Reps</th>
+				<th id="weightCol">Weight</th>
+				<th id="dateCol">Date</th>
+				<th id="lbsCol">lbs</th>
+			</tbody>
+		</table>
+	</div>
+  </body>
+</html>
