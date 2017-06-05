@@ -39,7 +39,7 @@ app.get('/',function(req, res, next){
 app.post('/', function(req,res,next){
 	console.log("input: " + JSON.stringify(req.body));
 	//var context = {};
-	mysql.pool.query("INSERT INTO exerciseData (`name`) VALUES (?)", [req.body.name], function(err, result){
+	mysql.pool.query("INSERT INTO exerciseData SET name=?, reps=?, weight=?, date=?, lbs=? ", [req.body.name, req.body.reps, req.body.weight, req.body.date, req.body.lbs], function(err, result){
 		if(err){
 			next(err);
 			return;
