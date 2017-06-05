@@ -27,7 +27,7 @@ app.get('/',function(req, res, next){
 		next(err);
 		return;
 	}
-	console.log("rows: " + JSON.stringify(rows));
+	//console.log("rows: " + JSON.stringify(rows));
 	context.results = rows;
 
 	res.render('home', context);
@@ -38,27 +38,68 @@ app.get('/',function(req, res, next){
 
 app.post('/', function(req,res,next){
 	console.log("input: " + JSON.stringify(req.body));
-	//var context = {};
-	mysql.pool.query("INSERT INTO exerciseData SET name=?, reps=?, weight=?, date=?, lbs=? ", [req.body.name, req.body.reps, req.body.weight, req.body.date, req.body.lbs], function(err, result){
-		if(err){
-			next(err);
-			return;
-		}
-		else {
-			var context = {};
-			mysql.pool.query('SELECT * FROM exerciseData', function(err, rows, fields){
+	console.log("input: " + Object.keys(req.body)[0]);
+	console.log("id: " + Object.values(req.body)[0]);
+	//console.log("id: " + req.body.id);
+	if (Object.keys(req.body)[0] === "delete") {
+		var context = {};
+	     mysql.pool.query("DELETE FROM exerciseData WHERE id=?", [Object.values(req.body)[0]], function(err, result){
+	       if(err){
+	         next(err);
+	         return;
+	       }
+		  else {
+			  var context = {};
+			  mysql.pool.query('SELECT * FROM exerciseData', function(err, rows, fields){
+			  if(err){
+				  next(err);
+				  return;
+			  }
+			  //console.log("rows: " + JSON.stringify(rows));
+			  context.results = rows;
+
+			  res.render('home', context);
+			  });
+		  }
+	     });
+	}
+	else {
+		mysql.pool.query("INSERT INTO exerciseData SET name=?, reps=?, weight=?, date=?, lbs=? ", [req.body.name, req.body.reps, req.body.weight, req.body.date, req.body.lbs], function(err, result){
 			if(err){
 				next(err);
 				return;
 			}
-			console.log("rows: " + JSON.stringify(rows));
-			context.results = rows;
+			else {
+				var context = {};
+				mysql.pool.query('SELECT * FROM exerciseData', function(err, rows, fields){
+				if(err){
+					next(err);
+					return;
+				}
+				//console.log("rows: " + JSON.stringify(rows));
+				context.results = rows;
 
-			res.render('home', context);
-			});
-		}
-	});
+				res.render('home', context);
+				});
+			}
+		});
+	}
 });
+
+
+app.post('/',function(req,res,next){
+	console.log(req.body.delete);
+  // var context = {};
+  // mysql.pool.query("DELETE FROM todo WHERE id=?", [req.body.delete], function(err, result){
+  //   if(err){
+  //     next(err);
+  //     return;
+  //   }
+  //   context.results = "Deleted " + result.changedRows + " rows.";
+  //   res.render('home',context);
+  // });
+});
+
 
 
 
