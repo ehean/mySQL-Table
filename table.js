@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', submitData);
 // var express = require('express');
-// var mysql = require('./dbcon.js');
+var mysql = require('./dbcon.js');
 // var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 // var app = express();
 //
@@ -54,6 +54,19 @@ function submitData() {
 			//var response = JSON.parse(req.responseText);
 			console.log(JSON.parse(req.response));
 			document.getElementById('dataOutput').textContent = req.responseText;
+			mysql.pool.query("DROP TABLE IF EXISTS excerciseData", function(err){
+				var createString = "CREATE TABLE excerciseData(" +
+				"id INT PRIMARY KEY AUTO_INCREMENT," +
+				"name VARCHAR(255)," +
+				"reps INT," +
+				"weight INT"
+				"date DATE" +
+				"lbs INT)";
+				console.log("table reset");
+				//   var submitData = document.getElementById('submitData').addEventListener('click', function(event){
+				//   	console.log("submit button clicked");
+				//   });
+			});
 		}
 		else {
 			console.log("Error in network request: " + req.statusText);
