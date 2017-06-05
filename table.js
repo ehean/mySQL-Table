@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', submitData);
-// var express = require('express');
-var mysql = require('./dbcon.js');
+//var mysql = require('./dbcon.js');
 // var handlebars = require('express-handlebars').create({defaultLayout:'main'});
-// var app = express();
+var app = express();
 //
 // app.engine('handlebars', handlebars.engine);
 // app.set('view engine', 'handlebars');
@@ -10,6 +9,7 @@ var mysql = require('./dbcon.js');
 
 var DATACOUNT = 5;
 var dataObject = { 'name': '', 'reps': '', 'weight': '', 'date': '', 'lbs': '' }
+
 
 
 // app.get('/',function(req,res,next){
@@ -45,6 +45,22 @@ function submitData() {
 			else
 				dataObject[key] =  document.getElementById(key + "Form").value;
 		}
+
+		app.get('/reset-table',function(req,res,next){
+		  var context = {};
+		  mysql.pool.query("DROP TABLE IF EXISTS todo", function(err){
+		    var createString = "CREATE TABLE todo(" +
+		    "id INT PRIMARY KEY AUTO_INCREMENT," +
+		    "name VARCHAR(255) NOT NULL," +
+		    "done BOOLEAN," +
+		    "due DATE)";
+		    mysql.pool.query(createString, function(err){
+			    console.log("table uploaded");
+			 //context.results = "Table reset";
+		      //res.render('home',context);
+		    })
+		  });
+		});
 
 		payload.data = dataObject;
 		req.open('POST', 'http://httpbin.org/post', true);
